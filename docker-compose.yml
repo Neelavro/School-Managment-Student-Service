@@ -1,0 +1,9 @@
+services:
+  student-service:
+    build: .
+    ports:
+      - "8083:8083"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://172.17.0.1:3306/student_service
+      SPRING_DATASOURCE_USERNAME: technonix
+      SPRING_DATASOURCE_PASSWORD: Technonix@123

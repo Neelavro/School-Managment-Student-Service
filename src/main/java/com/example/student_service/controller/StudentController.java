@@ -1,0 +1,137 @@
+package com.example.student_service.controller;
+
+import com.example.student_service.entity.Student;
+import com.example.student_service.service.StudentService;
+import com.example.student_service.util.ApiResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@RestController
+@RequestMapping("/api/students")
+@RequiredArgsConstructor
+public class StudentController {
+
+    private final StudentService studentService;
+
+    @PostMapping
+    public ResponseEntity<Map<String, Object>> createStudent(@RequestBody Student student) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            Student createdStudent = studentService.createStudent(student);
+            response.put("success", true);
+            response.put("message", "Student created successfully");
+            response.put("id", createdStudent.getId());
+            return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException ex) {
+            response.put("success", false);
+            response.put("message", ex.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        } catch (Exception ex) {
+            response.put("success", false);
+            response.put("message", "Could not create student: " + ex.getMessage());
+            return ResponseEntity.internalServerError().body(response);
+        }
+    }
+
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Student> getStudent(@PathVariable Long id) {
+        Student student = studentService.getStudentById(id);
+        if (student == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(student);
+    }
+
+    @GetMapping
+    public ResponseEntity<ApiResponse<List<Student>>> getAllStudents() {
+        try {
+            List<Student> students = studentService.getAllStudents();
+            ApiResponse<List<Student>> response = new ApiResponse<>(
+                    "Students retrieved successfully",
+                    students,
+                    true
+            );
+            return ResponseEntity.ok(response);
+        } catch (Exception ex) {
+            ApiResponse<List<Student>> response = new ApiResponse<>(
+                    "Could not retrieve students: " + ex.getMessage(),
+                    null,
+                    false
+            );
+            return ResponseEntity.internalServerError().body(response);
+        }
+    }
+
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Map<String, Object>> updateStudent(
+            @PathVariable Long id,
+            @RequestBody Student student
+    ) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            Student updated = studentService.updateStudent(id, student);
+            if (updated == null) {
+                response.put("success", false);
+                response.put("message", "Student not found");
+                return ResponseEntity.status(404).body(response);
+            }
+            response.put("success", true);
+            response.put("message", "Student updated successfully");
+            return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException ex) {
+            response.put("success", false);
+            response.put("message", ex.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        } catch (Exception ex) {
+            response.put("success", false);
+            response.put("message", "Could not update student: " + ex.getMessage());
+            return ResponseEntity.internalServerError().body(response);
+        }
+    }
+
+    @PutMapping("/migrate/{id}")
+    public ResponseEntity<Map<String, Object>> migrateStudent(
+            @PathVariable Long id,
+            @RequestBody Student student
+    ) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            Student updated = studentService.migrateStudent(id, student);
+            if (updated == null) {
+                response.put("success", false);
+                response.put("message", "Student not found");
+                return ResponseEntity.status(404).body(response);
+            }
+            response.put("success", true);
+            response.put("message", "Student updated successfully");
+            return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException ex) {
+            response.put("success", false);
+            response.put("message", ex.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        } catch (Exception ex) {
+            response.put("success", false);
+            response.put("message", "Could not update student: " + ex.getMessage());
+            return ResponseEntity.internalServerError().body(response);
+        }
+    }
+
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse<Void>> deleteStudent(@PathVariable Long id) {
+        try {
+            studentService.deleteStudent(id);
+            ApiResponse<Void> response = new ApiResponse<>("Student deleted successfully", null, true);
+            return ResponseEntity.ok(response);
+        } catch (Exception ex) {
+            ApiResponse<Void> response = new ApiResponse<>("Could not delete student: " + ex.getMessage(), null, false);
+            return ResponseEntity.internalServerError().body(response);
+        }
+    }
+
+}
