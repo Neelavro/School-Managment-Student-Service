@@ -33,7 +33,7 @@ public class StudentImageServiceImpl implements StudentImageService {
     private final StudentImageRepository studentImageRepository;
     private final StudentRepository studentRepository;
 
-    private static final String IMAGE_FOLDER = "/var/www/student_service/images/";
+    private static final String IMAGE_FOLDER = "/var/www/student-service-images/";
     private static final String BASE_URL      = "http://167.172.86.59:8083";
     private static final int    MAX_BYTES     = 20 * 1024; // 20 KB
 
@@ -159,22 +159,28 @@ public class StudentImageServiceImpl implements StudentImageService {
 
         log.info("Compressing image (original: {} bytes) ...", originalBytes.length);
 
-        // Step 1 — quality stepping
         float[] qualitySteps = { 0.85f, 0.75f, 0.60f, 0.45f, 0.30f, 0.20f, 0.10f, 0.05f };
-        byte[]  result       = tryQualityStepping(bufferedImage, qualitySteps);
+
+        // Step 1 — quality stepping on original dimensions
+        byte[] result = tryQualityStepping(bufferedImage, qualitySteps);
         if (result != null) return result;
 
-        // Step 2 — scale dimensions by 50% and retry quality stepping
-        log.warn("Quality stepping insufficient — scaling dimensions by 50%");
-        BufferedImage scaled = scaleImage(bufferedImage, 0.5);
-        result = tryQualityStepping(scaled, qualitySteps);
+        // Step 2 — scale to 50% and retry
+        log.warn("Quality stepping insufficient — scaling to 50%");
+        BufferedImage scaled50 = scaleImage(bufferedImage, 0.5);
+        result = tryQualityStepping(scaled50, qualitySteps);
         if (result != null) return result;
 
-        // Step 3 — last resort, return whatever lowest quality + scaled gives us
+        // Step 3 — scale to 25% and retry
+        log.warn("50% scale insufficient — scaling to 25%");
+        BufferedImage scaled25 = scaleImage(bufferedImage, 0.25);
+        result = tryQualityStepping(scaled25, qualitySteps);
+        if (result != null) return result;
+
+        // Step 4 — absolute last resort
         log.warn("Could not get image under 20KB — saving best effort result");
-        return writeAtQuality(scaled, 0.05f);
+        return writeAtQuality(scaled25, 0.05f);
     }
-
     private byte[] tryQualityStepping(BufferedImage image, float[] steps) throws IOException {
         for (float quality : steps) {
             byte[] compressed = writeAtQuality(image, quality);
