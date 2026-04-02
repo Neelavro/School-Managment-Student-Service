@@ -14,4 +14,5 @@ public interface StudentRepository extends JpaRepository<Student, Long>, JpaSpec
     boolean existsByStudentSystemId(String studentSystemId);
     Optional<Student> findByStudentSystemId(String studentSystemId);    @Query("SELECT s.studentSystemId FROM Student s WHERE s.studentSystemId LIKE CONCAT(:year, '%') ORDER BY s.studentSystemId DESC LIMIT 1")
     String findMaxStudentSystemIdByYear(@Param("year") String year);
+
 }

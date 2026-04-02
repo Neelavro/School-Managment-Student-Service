@@ -64,6 +64,13 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public Student getStudentBySystemId(String studentSystemId) {
+        return studentRepository.findByStudentSystemId(studentSystemId)
+                .filter(Student::getIsActive)
+                .orElse(null);
+    }
+
+    @Override
     public Student getStudentById(Long id) {
         return studentRepository.findById(id)
                 .filter(Student::getIsActive)

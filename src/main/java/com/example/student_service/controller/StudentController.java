@@ -46,6 +46,13 @@ public class StudentController {
         return ResponseEntity.ok(student);
     }
 
+    @GetMapping("/system/{studentSystemId}")
+    public ResponseEntity<Student> getStudentBySystemId(@PathVariable String studentSystemId) {
+        Student student = studentService.getStudentBySystemId(studentSystemId);
+        if (student == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(student);
+    }
+
     @GetMapping
     public ResponseEntity<ApiResponse<List<Student>>> getAllStudents() {
         try {
