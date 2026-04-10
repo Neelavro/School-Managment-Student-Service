@@ -174,6 +174,6 @@ public class StudentServiceImpl implements StudentService {
         dest.setPermanentThana(src.getPermanentThana());
         dest.setDob(src.getDob());
         dest.setNationality(src.getNationality());
-        dest.setIsActive(src.getIsActive());
+        dest.setIsActive(true);
     }
 }
