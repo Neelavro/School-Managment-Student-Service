@@ -31,6 +31,30 @@ public class StudentServiceImpl implements StudentService {
 
         return yearPrefix + String.format("%04d", nextNumber);
     }
+    @Override
+    public Student updateStudentBySystemId(String studentSystemId, Student student) {
+        return studentRepository.findByStudentSystemId(studentSystemId)
+                .map(existing -> {
+                    mapSimpleFields(student, existing);
+
+                    // Don't overwrite the studentSystemId itself
+                    // existing.studentSystemId stays unchanged
+
+                    if (student.getGender() != null) {
+                        existing.setGender(
+                                genderRepository.getReferenceById(student.getGender().getId())
+                        );
+                    }
+                    if (student.getStudentStatus() != null) {
+                        existing.setStudentStatus(
+                                studentStatusRepository.getReferenceById(student.getStudentStatus().getId())
+                        );
+                    }
+
+                    return studentRepository.save(existing);
+                })
+                .orElse(null);
+    }
 
     private void assignOrUpdateStudentSystemId(Student student, Student existing) {
         String newId = student.getStudentSystemId();

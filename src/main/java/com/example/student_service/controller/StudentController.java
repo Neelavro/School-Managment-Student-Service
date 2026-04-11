@@ -127,6 +127,33 @@ public class StudentController {
             return ResponseEntity.internalServerError().body(response);
         }
     }
+    @PutMapping("/by-system-id/{studentSystemId}")
+    public ResponseEntity<Map<String, Object>> updateStudentBySystemId(
+            @PathVariable String studentSystemId,
+            @RequestBody Student student
+    ) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            Student updated = studentService.updateStudentBySystemId(studentSystemId, student);
+            if (updated == null) {
+                response.put("success", false);
+                response.put("message", "Student not found with systemId: " + studentSystemId);
+                return ResponseEntity.status(404).body(response);
+            }
+            response.put("success", true);
+            response.put("message", "Student updated successfully");
+            response.put("data", updated);
+            return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException ex) {
+            response.put("success", false);
+            response.put("message", ex.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        } catch (Exception ex) {
+            response.put("success", false);
+            response.put("message", "Could not update student: " + ex.getMessage());
+            return ResponseEntity.internalServerError().body(response);
+        }
+    }
 
 
     @DeleteMapping("/{id}")

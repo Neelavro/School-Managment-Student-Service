@@ -16,4 +16,6 @@ public interface StudentService {
     // StudentService.java (interface)
     Student getStudentBySystemId(String studentSystemId);
     void deleteStudent(Long id); // soft delete
+    Student updateStudentBySystemId(String studentSystemId, Student student);
+
 }
