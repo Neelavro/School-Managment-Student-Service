@@ -170,34 +170,34 @@ public class StudentServiceImpl implements StudentService {
     // ── helpers ────────────────────────────────────────────────────────────────
 
     private void mapSimpleFields(Student src, Student dest) {
-        dest.setClassRoll(src.getClassRoll());
-        dest.setNameBangla(src.getNameBangla());
-        dest.setNameEnglish(src.getNameEnglish());
-        dest.setFatherNameBangla(src.getFatherNameBangla());
-        dest.setFatherNameEnglish(src.getFatherNameEnglish());
-        dest.setFatherOccupation(src.getFatherOccupation());
-        dest.setFatherPhone(src.getFatherPhone());
-        dest.setFatherMonthlySalary(src.getFatherMonthlySalary());
-        dest.setMotherNameBangla(src.getMotherNameBangla());
-        dest.setMotherNameEnglish(src.getMotherNameEnglish());
-        dest.setMotherOccupation(src.getMotherOccupation());
-        dest.setMotherPhone(src.getMotherPhone());
-        dest.setMotherMonthlySalary(src.getMotherMonthlySalary());
-        dest.setGuardianNameBangla(src.getGuardianNameBangla());
-        dest.setGuardianNameEnglish(src.getGuardianNameEnglish());
-        dest.setGuardianOccupation(src.getGuardianOccupation());
-        dest.setGuardianPhone(src.getGuardianPhone());
-        dest.setGuardianRelation(src.getGuardianRelation());
-        dest.setCurrentHoldingNo(src.getCurrentHoldingNo());
-        dest.setCurrentRoadOrVillage(src.getCurrentRoadOrVillage());
-        dest.setCurrentDistrict(src.getCurrentDistrict());
-        dest.setCurrentThana(src.getCurrentThana());
-        dest.setPermanentHoldingNo(src.getPermanentHoldingNo());
-        dest.setPermanentRoadOrVillage(src.getPermanentRoadOrVillage());
-        dest.setPermanentDistrict(src.getPermanentDistrict());
-        dest.setPermanentThana(src.getPermanentThana());
-        dest.setDob(src.getDob());
-        dest.setNationality(src.getNationality());
+        if (src.getNameBangla()             != null) dest.setNameBangla(src.getNameBangla());
+        if (src.getNameEnglish()            != null) dest.setNameEnglish(src.getNameEnglish());
+        if (src.getFatherNameBangla()       != null) dest.setFatherNameBangla(src.getFatherNameBangla());
+        if (src.getFatherNameEnglish()      != null) dest.setFatherNameEnglish(src.getFatherNameEnglish());
+        if (src.getFatherOccupation()       != null) dest.setFatherOccupation(src.getFatherOccupation());
+        if (src.getFatherPhone()            != null) dest.setFatherPhone(src.getFatherPhone());
+        if (src.getFatherMonthlySalary()    != null) dest.setFatherMonthlySalary(src.getFatherMonthlySalary());
+        if (src.getMotherNameBangla()       != null) dest.setMotherNameBangla(src.getMotherNameBangla());
+        if (src.getMotherNameEnglish()      != null) dest.setMotherNameEnglish(src.getMotherNameEnglish());
+        if (src.getMotherOccupation()       != null) dest.setMotherOccupation(src.getMotherOccupation());
+        if (src.getMotherPhone()            != null) dest.setMotherPhone(src.getMotherPhone());
+        if (src.getMotherMonthlySalary()    != null) dest.setMotherMonthlySalary(src.getMotherMonthlySalary());
+        if (src.getGuardianNameBangla()     != null) dest.setGuardianNameBangla(src.getGuardianNameBangla());
+        if (src.getGuardianNameEnglish()    != null) dest.setGuardianNameEnglish(src.getGuardianNameEnglish());
+        if (src.getGuardianOccupation()     != null) dest.setGuardianOccupation(src.getGuardianOccupation());
+        if (src.getGuardianPhone()          != null) dest.setGuardianPhone(src.getGuardianPhone());
+        if (src.getGuardianRelation()       != null) dest.setGuardianRelation(src.getGuardianRelation());
+        if (src.getCurrentHoldingNo()       != null) dest.setCurrentHoldingNo(src.getCurrentHoldingNo());
+        if (src.getCurrentRoadOrVillage()   != null) dest.setCurrentRoadOrVillage(src.getCurrentRoadOrVillage());
+        if (src.getCurrentDistrict()        != null) dest.setCurrentDistrict(src.getCurrentDistrict());
+        if (src.getCurrentThana()           != null) dest.setCurrentThana(src.getCurrentThana());
+        if (src.getPermanentHoldingNo()     != null) dest.setPermanentHoldingNo(src.getPermanentHoldingNo());
+        if (src.getPermanentRoadOrVillage() != null) dest.setPermanentRoadOrVillage(src.getPermanentRoadOrVillage());
+        if (src.getPermanentDistrict()      != null) dest.setPermanentDistrict(src.getPermanentDistrict());
+        if (src.getPermanentThana()         != null) dest.setPermanentThana(src.getPermanentThana());
+        if (src.getDob()                    != null) dest.setDob(src.getDob());
+        if (src.getNationality()            != null) dest.setNationality(src.getNationality());
         dest.setIsActive(true);
+        if (src.getClassRoll()              != null) dest.setClassRoll(src.getClassRoll());
     }
 }
